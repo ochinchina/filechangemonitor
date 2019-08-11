@@ -12,6 +12,10 @@ type FileMatcher interface {
 type MatchAllFile struct {
 }
 
+func NewMatchAllFile() *MatchAllFile {
+	return &MatchAllFile{}
+}
+
 func (maf MatchAllFile) Match(path string) bool {
 	return true
 }
@@ -55,6 +59,7 @@ func (afm *AnyFileMatcher) Match(path string) bool {
 	return false
 }
 
+// all the matchers should be matched
 type AllFileMatcher struct {
 	fileMatchers []FileMatcher
 }

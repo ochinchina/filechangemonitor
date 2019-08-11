@@ -75,7 +75,7 @@ func (fi *fileChangeMonitorItem) checkChanges() {
 
 	for _, evt := range fileChangeEvents {
 		fmt.Println(evt)
-		fi.fileChangeCb(evt.Name, evt.ChangeMode)
+		fi.fileChangeCb.Accept(evt.Name, evt.ChangeMode)
 	}
 }
 
