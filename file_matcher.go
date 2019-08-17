@@ -1,12 +1,49 @@
 package filechangemonitor
 
 import (
+	"path/filepath"
 	"regexp"
 )
 
 type FileMatcher interface {
 	// check if the file matches the expected
 	Match(path string) bool
+}
+
+// if two files are extactly same
+type ExactFileMatcher struct {
+	filename string
+}
+
+func NewExactFileMatcher(filename string) *ExactFileMatcher {
+	absName, err := filepath.Abs(filename)
+
+	if err != nil {
+		return nil
+	}
+	return &ExactFileMatcher{filename: absName}
+}
+
+func (efm *ExactFileMatcher) Match(path string) bool {
+	if efm.filename == path {
+		return true
+	}
+	absPath, err := filepath.Abs(path)
+	return err == nil && absPath == efm.filename
+}
+
+// match the file by filepath.Match method
+type PatternFileMatcher struct {
+	pattern string
+}
+
+func NewPatternFileMatcher(pattern string) *PatternFileMatcher {
+	return &PatternFileMatcher{pattern: pattern}
+}
+
+func (pfm *PatternFileMatcher) Match(path string) bool {
+	matched, err := filepath.Match(pfm.pattern, path)
+	return matched && err == nil
 }
 
 type MatchAllFile struct {
@@ -20,6 +57,7 @@ func (maf MatchAllFile) Match(path string) bool {
 	return true
 }
 
+// match by regular expression
 type RegexFileMatcher struct {
 	pattern *regexp.Regexp
 }
