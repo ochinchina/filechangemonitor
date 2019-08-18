@@ -15,6 +15,19 @@ func TestMatchAllFile(t *testing.T) {
 	}
 }
 
+func TestPatternFileMatcher(t *testing.T) {
+    matcher := NewPatternFileMatcher(`*.cfg`)
+
+    if !matcher.Match("/test/test.cfg") {
+        t.Fatal()
+    }
+
+    if matcher.Match("/test/test.txt") {
+        t.Fatal()
+    }
+}
+
+
 func TestRegexFileMatcher(t *testing.T) {
 	matcher, err := NewRegexFileMatcher(`^[a-z]+\[[0-9]+\]$`)
 	if err != nil {

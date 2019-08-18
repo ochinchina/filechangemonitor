@@ -32,7 +32,7 @@ func (efm *ExactFileMatcher) Match(path string) bool {
 	return err == nil && absPath == efm.filename
 }
 
-// match the file by filepath.Match method
+// match the file basename by filepath.Match method
 type PatternFileMatcher struct {
 	pattern string
 }
@@ -42,7 +42,7 @@ func NewPatternFileMatcher(pattern string) *PatternFileMatcher {
 }
 
 func (pfm *PatternFileMatcher) Match(path string) bool {
-	matched, err := filepath.Match(pfm.pattern, path)
+	matched, err := filepath.Match(pfm.pattern, filepath.Base(path) )
 	return matched && err == nil
 }
 
