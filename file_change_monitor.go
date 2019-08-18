@@ -74,8 +74,9 @@ func (fi *fileChangeMonitorItem) checkChanges() {
 	fileChangeEvents := fi.fileChangeCompare.UpdateFiles(curFiles)
 
 	for _, evt := range fileChangeEvents {
-		fmt.Println(evt)
-		fi.fileChangeCb.Accept(evt.Name, evt.ChangeMode)
+		if fi.fileMatcher.Match(evt.Name) {
+			fi.fileChangeCb.Accept(evt.Name, evt.ChangeMode)
+		}
 	}
 }
 

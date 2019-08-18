@@ -42,7 +42,7 @@ func NewPatternFileMatcher(pattern string) *PatternFileMatcher {
 }
 
 func (pfm *PatternFileMatcher) Match(path string) bool {
-	matched, err := filepath.Match(pfm.pattern, filepath.Base(path) )
+	matched, err := filepath.Match(pfm.pattern, filepath.Base(path))
 	return matched && err == nil
 }
 
